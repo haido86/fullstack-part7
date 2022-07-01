@@ -1,4 +1,4 @@
-const _ = require("lodash");
+const _ = require('lodash');
 
 const dummy = (blogs) => {
   return 1;
@@ -36,7 +36,7 @@ const mostLikes = (blogs) => {
     return { author, likes };
   });
 
-  const maxLikesAuthor = _.maxBy(authors, "likes");
+  const maxLikesAuthor = _.maxBy(authors, 'likes');
 
   return maxLikesAuthor;
 };

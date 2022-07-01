@@ -1,20 +1,20 @@
-const Blog = require("../models/blog");
-const User = require("../models/user");
+const Blog = require('../models/blog');
+const User = require('../models/user');
 
 const initialBlogs = [
   {
-    title: "Going to cinema",
-    author: "Hanna Q.",
-    url: "String",
+    title: 'Going to cinema',
+    author: 'Hanna Q.',
+    url: 'String',
     likes: 72,
-    id: "3",
+    id: '3',
   },
   {
-    title: "Going ",
-    author: "Jack M.",
-    url: "String",
+    title: 'Going ',
+    author: 'Jack M.',
+    url: 'String',
     likes: 92,
-    id: "2",
+    id: '2',
   },
 ];
 
