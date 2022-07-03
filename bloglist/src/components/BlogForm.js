@@ -1,31 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { createBlog } from '../reducers/blogReducer';
 
-const BlogForm = ({ createBlog }) => {
-  const [newTitle, setNewTitle] = useState('');
-  const [newAuthor, setNewAuthor] = useState('');
-  const [newUrl, setNewUrl] = useState('');
+const BlogForm = ({ user }) => {
+  const dispatch = useDispatch();
 
-  const handleTitleChange = (event) => {
-    setNewTitle(event.target.value);
-  };
-  const handleAuthorChange = (event) => {
-    setNewAuthor(event.target.value);
-  };
-  const handleUrlChange = (event) => {
-    setNewUrl(event.target.value);
-  };
-
-  const addBlog = (event) => {
+  const addBlog = async (event) => {
     event.preventDefault();
-    createBlog({
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl,
-    });
-
-    setNewTitle('');
-    setNewAuthor('');
-    setNewUrl('');
+    const title = event.target.title.value;
+    const author = event.target.author.value;
+    const url = event.target.url.value;
+    event.target.title.value = '';
+    event.target.author.value = '';
+    event.target.url.value = '';
+    dispatch(createBlog({ title, author, url }, user));
   };
 
   return (
@@ -35,30 +23,15 @@ const BlogForm = ({ createBlog }) => {
         <div>
           <p>
             title:
-            <input
-              id="title"
-              value={newTitle}
-              onChange={handleTitleChange}
-              placeholder="write here title"
-            />
+            <input name="title" placeholder="write here title" />
           </p>
           <p>
             author:
-            <input
-              id="author"
-              value={newAuthor}
-              onChange={handleAuthorChange}
-              placeholder="write here author"
-            />
+            <input name="author" placeholder="write here author" />
           </p>
           <p>
             url:
-            <input
-              id="url"
-              value={newUrl}
-              onChange={handleUrlChange}
-              placeholder="write here url"
-            />
+            <input name="url" placeholder="write here url" />
           </p>
         </div>
         <div>

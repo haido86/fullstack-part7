@@ -8,32 +8,32 @@ import LoginForm from './components/LoginForm';
 import './App.css';
 import Togglable from './components/Togglable';
 import { setNotification } from './reducers/notificationReducer';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  eliminateBlog,
+  initializeBlogs,
+  setBlogs,
+  updateBlogByLikes,
+} from './reducers/blogReducer';
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
-  // const [errorMessage, setErrorMessage] = useState(null);
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [refresh, setRefresh] = useState(false);
 
+  const blogs = useSelector((state) => state.blogs);
+  console.log('state.blogs', blogs);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (user) {
-      const getBlogs = async () => {
-        const showAllBlog = await blogService.getAll();
-
-        const sortedBlogByLikes = showAllBlog.sort(
-          (firstItem, secondItem) => secondItem.likes - firstItem.likes
-        );
-
-        setBlogs(sortedBlogByLikes);
-      };
-      getBlogs();
+      dispatch(initializeBlogs());
     }
-  }, [user, refresh]);
+  }, [user, dispatch]);
+
+  const blogsForSort = [...blogs];
+
+  const sortedBlogByLikes = blogsForSort.sort((a, b) => b.likes - a.likes);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser');
@@ -65,38 +65,19 @@ const App = () => {
     }
   };
 
-  const addBlog = async (blogObject) => {
-    try {
-      const returnedBlog = await blogService.create(blogObject);
-      setBlogs(blogs.concat(returnedBlog));
-      setRefresh();
-      dispatch(setNotification(`Added ${blogObject.title}`, 5000));
-    } catch (exception) {
-      const responseErrorMessage = exception.response.data.error;
-      dispatch(setNotification(`${responseErrorMessage}`, 5000));
-    }
-  };
-
   const handleLogOut = () => {
     window.localStorage.removeItem('loggedBlogappUser');
     setUser(null);
-    setBlogs([]);
+    dispatch(setBlogs([]));
   };
 
-  const handleRefresh = () => {
-    setRefresh(!refresh);
+  const handleLikesBlog = (blog) => {
+    dispatch(updateBlogByLikes(blog));
   };
 
-  const handleLikesBlog = async (blog) => {
-    await blogService.update(blog.id, { likes: +blog.likes + 1 });
-
-    handleRefresh();
-  };
-
-  const handleRemoveBlog = async (blog) => {
+  const handleRemoveBlog = (blog) => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author} `)) {
-      await blogService.eliminate(blog.id);
-      handleRefresh();
+      dispatch(eliminateBlog(blog.id));
     }
   };
 
@@ -132,16 +113,15 @@ const App = () => {
       </div>
       <br />
       <Togglable buttonLabel="create new blog">
-        <BlogForm createBlog={addBlog} />
+        <BlogForm user={user} />
       </Togglable>
       <br />
       <div>
-        {blogs.map((blog) => (
+        {sortedBlogByLikes.map((blog) => (
           <Blog
             key={blog.id}
             blog={blog}
             user={user}
-            handleRefresh={handleRefresh}
             handleLikesBlog={handleLikesBlog}
             handleRemoveBlog={handleRemoveBlog}
           />

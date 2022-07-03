@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const Blog = ({ blog, user, handleLikesBlog, handleRemoveBlog }) => {
   const [blogVisible, setBlogVisible] = useState(false);
-
+  console.log('blog', blog);
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
