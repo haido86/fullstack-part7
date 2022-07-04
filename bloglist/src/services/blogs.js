@@ -31,6 +31,29 @@ const update = async (id, newObject) => {
   return response.data;
 };
 
+// const createComment = async (id, newComment) => {
+//   const config = {
+//     headers: { Authorization: token },
+//   };
+//   const response = await axios.post(
+//     `${baseUrl}/${id}/comments`,
+//     newComment,
+//     config
+//   );
+//   return response.data;
+// };
+// const getAllComments = async (blog) => {
+//   const config = {
+//     headers: { Authorization: token },
+//   };
+//   const response = await axios.get(
+//     `${baseUrl}/${blog.id}/comments`,
+//     blog.comments,
+//     config
+//   );
+//   return response.data;
+// };
+
 const eliminate = async (id) => {
   const config = {
     headers: { Authorization: token },

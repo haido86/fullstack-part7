@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Blog = ({ blog, user, handleLikesBlog, handleRemoveBlog }) => {
+const Blog = ({ blog, user, handleRemoveBlog, handleLikesBlog }) => {
   const [blogVisible, setBlogVisible] = useState(false);
   console.log('blog', blog);
   const blogStyle = {
