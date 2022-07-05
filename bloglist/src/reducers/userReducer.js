@@ -11,14 +11,6 @@ const userSlice = createSlice({
     setUsers(state, action) {
       return action.payload;
     },
-    // updateBlog(state, action) {
-    //   return state.map((i) =>
-    //     i.id === action.payload.id ? action.payload : i
-    //   );
-    // },
-    // removeBlog(state, action) {
-    //   return state.filter((i) => i.id !== action.payload);
-    // },
   },
 });
 

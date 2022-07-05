@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import blogService from '../services/blogs';
+import { setComments } from './commentReducer';
 import { setNotification } from './notificationReducer';
 
 const blogSlice = createSlice({
@@ -45,7 +46,6 @@ export const createBlog = (content, user) => {
       );
       dispatch(setNotification(`Added ${newBlog.title}`, 5000));
     } catch (error) {
-      // console.log(error);
       dispatch(setNotification(`${error.message}`, 5000));
     }
   };
@@ -70,6 +70,27 @@ export const eliminateBlog = (id) => {
     console.log('id', id);
     await blogService.eliminate(id);
     dispatch(removeBlog(id));
+  };
+};
+
+export const getComments = (blogId) => {
+  return async (dispatch) => {
+    const comments = await blogService.getAllComment(blogId);
+    dispatch(setComments(comments));
+  };
+};
+
+export const createComment = (content, blogId) => {
+  return async (dispatch) => {
+    try {
+      const newComment = await blogService.createComment(content, blogId);
+      const comments = await blogService.getAllComment(blogId);
+      dispatch(setComments(comments));
+      dispatch(setNotification(`Added comment: ${newComment.title}`, 5000));
+    } catch (error) {
+      console.log(error);
+      dispatch(setNotification(`${error.message}`, 5000));
+    }
   };
 };
 
