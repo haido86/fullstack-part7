@@ -11,6 +11,7 @@ const notificationSlice = createSlice({
     showNotification(state, action) {
       // console.log('action', action);
       state.content = action.payload.content;
+      state.type = action.payload.type;
       state.isShow = true;
     },
     clearNotification(state) {
@@ -24,9 +25,9 @@ export const { showNotification, clearNotification } =
 
 let timeOutId = null;
 
-export const setNotification = (content, duration) => {
+export const setNotification = (content, duration, type) => {
   return async (dispatch) => {
-    await dispatch(showNotification({ content }));
+    await dispatch(showNotification({ content, duration, type }));
     if (timeOutId) {
       clearTimeout(timeOutId);
     }

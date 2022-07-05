@@ -44,7 +44,7 @@ export const createBlog = (content, user) => {
           user: { id: newBlog.user, username: user.username },
         })
       );
-      dispatch(setNotification(`Added ${newBlog.title}`, 5000));
+      dispatch(setNotification(`Added ${newBlog.title}`, 5000, 'success'));
     } catch (error) {
       dispatch(setNotification(`${error.message}`, 5000));
     }
@@ -86,7 +86,9 @@ export const createComment = (content, blogId) => {
       const newComment = await blogService.createComment(content, blogId);
       const comments = await blogService.getAllComment(blogId);
       dispatch(setComments(comments));
-      dispatch(setNotification(`Added comment: ${newComment.title}`, 5000));
+      dispatch(
+        setNotification(`Added comment: ${newComment.title}`, 5000, 'success')
+      );
     } catch (error) {
       console.log(error);
       dispatch(setNotification(`${error.message}`, 5000));

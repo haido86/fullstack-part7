@@ -7,6 +7,9 @@ import {
   TableRow,
   Paper,
   TableHead,
+  Button,
+  AppBar,
+  Toolbar,
 } from '@mui/material';
 
 import blogService from './services/blogs';
@@ -79,6 +82,9 @@ const App = () => {
       blogService.setToken(user.token);
 
       setUser(user);
+      dispatch(
+        setNotification(`${username} successfully logged in `, 5000, 'success')
+      );
 
       setUsername('');
       setPassword('');
@@ -103,21 +109,28 @@ const App = () => {
   // };
 
   const Menu = () => {
-    const padding = {
-      paddingRight: 10,
-    };
     return (
       <div>
-        <Link style={padding} to="/">
-          blogs
-        </Link>
-        <Link style={padding} to="/users">
-          users
-        </Link>
-        <span style={padding}>
-          {user.username} logged in{' '}
-          <button onClick={handleLogOut}>Log out</button>
-        </span>
+        <AppBar position="static">
+          <Toolbar>
+            <Button color="inherit" component={Link} to="/">
+              home
+            </Button>
+            <Button color="inherit" component={Link} to="/blogs">
+              blogs
+            </Button>
+            <Button color="inherit" component={Link} to="/users">
+              users
+            </Button>
+            <Button
+              style={{ marginLeft: 'auto' }}
+              color="inherit"
+              onClick={handleLogOut}
+            >
+              logout
+            </Button>
+          </Toolbar>
+        </AppBar>
       </div>
     );
   };
@@ -156,7 +169,7 @@ const App = () => {
         <Route path="/users/:id" element={<User />} />
 
         <Route
-          path="/"
+          path="/blogs"
           element={
             <>
               <Togglable buttonLabel="create new blog">
@@ -164,15 +177,6 @@ const App = () => {
               </Togglable>
               <br />
               <div>
-                {/* {sortedBlogByLikes.map((blog) => (
-                  <Blog
-                    key={blog.id}
-                    blog={blog}
-                    user={user}
-                    handleLikesBlog={handleLikesBlog}
-                    handleRemoveBlog={handleRemoveBlog}
-                  />
-                ))} */}
                 <TableContainer component={Paper}>
                   <Table>
                     <TableBody>

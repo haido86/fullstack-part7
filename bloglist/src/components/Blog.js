@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import React, { useState } from 'react';
 
 const Blog = ({ blog, user, handleRemoveBlog, handleLikesBlog }) => {
@@ -19,9 +20,14 @@ const Blog = ({ blog, user, handleRemoveBlog, handleLikesBlog }) => {
       <div style={hideWhenVisible}>
         <div>
           <span>{blog.title}</span>
-          <button id="view-button" onClick={() => setBlogVisible(true)}>
+          <Button
+            variant="contained"
+            size="small"
+            id="view-button"
+            onClick={() => setBlogVisible(true)}
+          >
             View
-          </button>
+          </Button>
         </div>
       </div>
       <div style={showWhenVisible}>
